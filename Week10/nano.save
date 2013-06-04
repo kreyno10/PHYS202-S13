@@ -1,0 +1,33 @@
+def LinearLeastSquaresFit(x,y):
+    """take i arrays representing (x,y) values for a set of linearly varying data and
+    perform a linear least squares regression. Return the resulting slope and intercept
+    parameters of te best fit line with their uncertainties."""
+    
+    xav = zeros(len(x), float)
+    xav = sum(x)/len(x) #average x value
+    yav = zeros(len(y), float)
+    yav = sum(y)/len(y)#average y value
+    xav2 = zeros(len(x), float)
+    xav2 = sum(x**2)/len(x) #average x^2 value
+    xy = zeros(len(x), float)
+    xy = sum(x * y)/len(x) #average value of xy
+
+    m = (xy - xav*yav) / (xav2 - xav**2) # slope
+    b = (xav2*yav - xav*xy)/ (xav2 - xav**2) #intercept
+    
+    d = zeros(len(x), float)
+    for n in range(len(x)):
+        d[n] = y[n] - (m*x[n] + b) #vertical deviation
+        
+    
+    x2 = zeros(len(d), float)
+    for n in range(len(x)): 
+        x2[n] = sum(d[n]**2)#sum of squares of vertical deviations
+    
+    x2av = zeros(len(d), float)
+    x2av = sum(x2)/len(x) #average sum of squares of vertical deviation
+    
+    sigmaM = sqrt(1/float(len(x) -2) * x2av/(xav2 - xav**2))#uncertainty in slope
+    sigmaB = sqrt(1/float(len(x) -2) * x2av*xav2/(xav2 - xav**2))#uncertainty in intercept
+    
+    return "slope=", m, "intercept=", b, "slope error=", sigmaM, "intercept error=", sigmaB    
