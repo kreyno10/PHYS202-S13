@@ -1,0 +1,8 @@
+experiment = importdata('radioactivedecay.dat.txt') 
+t = experiment.data(:,1); 
+N = experiment.data(:,2); 
+figure(42)
+plot(t,N,'b.')
+%%
+%function to fit 
+fun = @(t, N) exp(t);
